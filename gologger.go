@@ -27,14 +27,14 @@ const (
 type GoLogger struct {
 	LogLevel  uint8
 	FileFlush bool
-	Scope 	  string
+	Scope     string
 }
 
 func NewGoLogger(logLevel uint8, fileFlush bool, scope string) Logger {
 	return GoLogger{
 		LogLevel:  logLevel,
 		FileFlush: fileFlush,
-		Scope: scope,
+		Scope:     scope,
 	}
 }
 
