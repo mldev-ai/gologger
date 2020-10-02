@@ -6,7 +6,7 @@ Gologger is simple scalable logger for any type of application logging. Ability 
 
 ```shell script
 # To install in your project
-go get githib.com/mldev-ai/gologger
+go get github.com/mldev-ai/gologger
 ```
 
 ### Easy to Use
