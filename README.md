@@ -19,7 +19,7 @@ const LOG_LEVEL=3
 
 func main() {
     
-    myLogger := gologger.NewLogger(INFO_LEVEL, false, "YOUR_SCOPE")
+    myLogger := gologger.NewGoLogger(INFO_LEVEL, false, "YOUR_SCOPE")
     myLogger.Info("This is some log!!!")
     myLogger.Info(1)
     
