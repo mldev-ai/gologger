@@ -8,7 +8,7 @@ import (
 type H map[string]interface{}
 
 func TestGoLogger_Info(t *testing.T) {
-	logger := NewGoLogger(1, false, "TESTING")
+	logger := NewGoLogger(1, false).SetScope("TestGoLogger_Info")
 	s := make([]map[string]interface{}, 0)
 
 	s = append(s, H{"s": false})
@@ -18,7 +18,7 @@ func TestGoLogger_Info(t *testing.T) {
 }
 
 func TestGoLogger_Info2(t *testing.T) {
-	logger := NewGoLogger(1, false, "TESTING")
+	logger := NewGoLogger(1, false).SetScope("TestGoLogger_Info")
 
 	s := make([]map[string]interface{}, 0)
 
@@ -45,7 +45,9 @@ func TestGoLogger_Info2(t *testing.T) {
 }
 
 func TestGoLogger_Debug(t *testing.T) {
-	logger := NewGoLogger(3, false, "TESTING")
+	logger := NewGoLogger(3, false)
+	logger.SetScope("TESTING")
+
 	s := make([]map[string]interface{}, 0)
 
 	s = append(s, H{"s": false})
@@ -55,7 +57,7 @@ func TestGoLogger_Debug(t *testing.T) {
 }
 
 func TestGoLogger_Debug2(t *testing.T) {
-	logger := NewGoLogger(3, false, "TESTING")
+	logger := NewGoLogger(3, false).SetScope("TestGoLogger")
 
 	s := make([]map[string]interface{}, 0)
 

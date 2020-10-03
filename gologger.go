@@ -12,6 +12,7 @@ type Logger interface {
 	Debug(msg interface{})
 	Warn(msg interface{})
 	Error(msg interface{})
+	SetScope(scope string) Logger
 }
 
 const (
@@ -30,21 +31,30 @@ type GoLogger struct {
 	Scope     string
 }
 
-func NewGoLogger(logLevel uint8, fileFlush bool, scope string) Logger {
+func NewGoLogger(logLevel uint8, fileFlush bool) Logger {
 	return GoLogger{
 		LogLevel:  logLevel,
 		FileFlush: fileFlush,
-		Scope:     scope,
+		Scope:"",
 	}
+}
+
+
+func (l GoLogger) SetScope(scope string) Logger {
+	l.Scope = scope
+	return l
 }
 
 func (l GoLogger) Info(msg interface{}) {
 	if l.LogLevel >= INFO {
 		val, e := json.Marshal(msg)
 		if e != nil {
-			fmt.Println(e)
+			// Do nothing
 		}
-		_, _ = fmt.Fprint(os.Stdout, string(colorGreen), fmt.Sprintf("INFO: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+		if l.Scope != "" {
+			_, _ = fmt.Fprint(os.Stdout, string(colorGreen), fmt.Sprintf("INFO: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+		}
+		_, _ = fmt.Fprint(os.Stdout, string(colorGreen), fmt.Sprintf("INFO: [%s]  %s\n", time.Now().Format(time.RFC3339),  string(val)))
 	}
 
 }
@@ -53,9 +63,12 @@ func (l GoLogger) Warn(msg interface{}) {
 	if l.LogLevel >= WARN {
 		val, e := json.Marshal(msg)
 		if e != nil {
-			fmt.Println(e)
+			// Do nothing
 		}
-		_, _ = fmt.Fprint(os.Stdout, string(colorYellow), fmt.Sprintf("Warn: [%s] Scope: [%s]  %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+		if l.Scope != "" {
+			_, _ = fmt.Fprint(os.Stdout, string(colorYellow), fmt.Sprintf("Warn: [%s] Scope: [%s]  %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+		}
+		_, _ = fmt.Fprint(os.Stdout, string(colorYellow), fmt.Sprintf("Warn: [%s]  %s\n", time.Now().Format(time.RFC3339), string(val)))
 	}
 }
 
@@ -63,9 +76,12 @@ func (l GoLogger) Debug(msg interface{}) {
 	if l.LogLevel >= DEBUG {
 		val, e := json.Marshal(msg)
 		if e != nil {
-			fmt.Println(e)
+			// Do nothing
 		}
-		_, _ = fmt.Fprint(os.Stdout, string(colorCyan), fmt.Sprintf("DEBUG: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+		if l.Scope != "" {
+			_, _ = fmt.Fprint(os.Stdout, string(colorCyan), fmt.Sprintf("DEBUG: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+		}
+		_, _ = fmt.Fprint(os.Stdout, string(colorCyan), fmt.Sprintf("DEBUG: [%s] %s\n", time.Now().Format(time.RFC3339), string(val)))
 	}
 }
 
@@ -73,8 +89,11 @@ func (l GoLogger) Error(msg interface{}) {
 
 	val, e := json.Marshal(msg)
 	if e != nil {
-		fmt.Println(e)
+		// Do nothing
 	}
-	_, _ = fmt.Fprint(os.Stdout, string(colorRed), fmt.Sprintf("ERROR: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+	if l.Scope != "" {
+		_, _ = fmt.Fprint(os.Stdout, string(colorRed), fmt.Sprintf("ERROR: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+	}
+	_, _ = fmt.Fprint(os.Stdout, string(colorRed), fmt.Sprintf("ERROR: [%s] %s\n", time.Now().Format(time.RFC3339), string(val)))
 
 }
