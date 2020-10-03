@@ -15,4 +15,7 @@ type Config struct {
 	// FormatString configurable how user wants
 	// TODO: need to add support in near future
 	FormatString string
+
+	// Pretty print for logging arrays and struct default false
+	PrettyPrint bool
 }

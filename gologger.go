@@ -54,7 +54,13 @@ func (l GoLogger) SetScope(scope string) Logger {
 // Info level log print to console
 func (l GoLogger) Info(msg interface{}) {
 	if l.config.LogLevel >= INFO {
-		val, e := json.Marshal(msg)
+		var val []byte
+		var e error
+		if l.config.PrettyPrint && l.config.PrettyPrint == true {
+			val, e = json.MarshalIndent(msg, "", " ")
+		} else {
+			val, e = json.Marshal(msg)
+		}
 		if e != nil {
 			// Do nothing
 		}
@@ -69,7 +75,13 @@ func (l GoLogger) Info(msg interface{}) {
 // Warn level log print to console
 func (l GoLogger) Warn(msg interface{}) {
 	if l.config.LogLevel >= WARN {
-		val, e := json.Marshal(msg)
+		var val []byte
+		var e error
+		if l.config.PrettyPrint && l.config.PrettyPrint == true {
+			val, e = json.MarshalIndent(msg, "", " ")
+		} else {
+			val, e = json.Marshal(msg)
+		}
 		if e != nil {
 			// Do nothing
 		}
@@ -83,7 +95,13 @@ func (l GoLogger) Warn(msg interface{}) {
 // Debug level log print to console
 func (l GoLogger) Debug(msg interface{}) {
 	if l.config.LogLevel >= DEBUG {
-		val, e := json.Marshal(msg)
+		var val []byte
+		var e error
+		if l.config.PrettyPrint && l.config.PrettyPrint == true {
+			val, e = json.MarshalIndent(msg, "", " ")
+		} else {
+			val, e = json.Marshal(msg)
+		}
 		if e != nil {
 			// Do nothing
 		}
@@ -97,7 +115,13 @@ func (l GoLogger) Debug(msg interface{}) {
 // Error level log print to console
 func (l GoLogger) Error(msg interface{}) {
 
-	val, e := json.Marshal(msg)
+	var val []byte
+	var e error
+	if l.config.PrettyPrint && l.config.PrettyPrint == true {
+		val, e = json.MarshalIndent(msg, "", " ")
+	} else {
+		val, e = json.Marshal(msg)
+	}
 	if e != nil {
 		// Do nothing
 	}
@@ -107,7 +131,6 @@ func (l GoLogger) Error(msg interface{}) {
 	log(ERROR, fmt.Sprintf("ERROR: [%s] %s\n", time.Now().Format(time.RFC3339), string(val)))
 
 }
-
 
 // log for final logging
 func log(lvl uint8, msg string) {
