@@ -10,7 +10,6 @@ type H map[string]interface{}
 func TestGoLogger_Info(t *testing.T) {
 	logger := NewGoLogger(Config{LogLevel: 1}).SetScope("TestGoLogger_Info")
 	s := make([]map[string]interface{}, 0)
-
 	s = append(s, H{"s": false})
 	logger.Info(s)
 	logger.Info("testing info log")
@@ -163,7 +162,7 @@ func BenchmarkGoLogger_Info(b *testing.B) {
 	s := make([]map[string]interface{}, 0)
 
 	s = append(s, H{"s": false})
-	for i:=0; i< b.N; i++ {
+	for i := 0; i < b.N; i++ {
 		logger.Info(s)
 		logger.Info("testing info log")
 		logger.Info(1)

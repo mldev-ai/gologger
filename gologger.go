@@ -21,6 +21,7 @@ const (
 	colorGreen  = "\033[32m"
 	colorYellow = "\033[33m"
 	colorCyan   = "\033[36m"
+	ERROR       = 0
 	INFO        = 1
 	WARN        = 2
 	DEBUG       = 3
@@ -58,9 +59,9 @@ func (l GoLogger) Info(msg interface{}) {
 			// Do nothing
 		}
 		if l.Scope != "" {
-			_, _ = fmt.Fprint(os.Stdout, string(colorGreen), fmt.Sprintf("INFO: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+			log(INFO, fmt.Sprintf("INFO: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
 		}
-		_, _ = fmt.Fprint(os.Stdout, string(colorGreen), fmt.Sprintf("INFO: [%s]  %s\n", time.Now().Format(time.RFC3339), string(val)))
+		log(INFO, fmt.Sprintf("INFO: [%s]  %s\n", time.Now().Format(time.RFC3339), string(val)))
 	}
 
 }
@@ -73,9 +74,9 @@ func (l GoLogger) Warn(msg interface{}) {
 			// Do nothing
 		}
 		if l.Scope != "" {
-			_, _ = fmt.Fprint(os.Stdout, string(colorYellow), fmt.Sprintf("Warn: [%s] Scope: [%s]  %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+			log(WARN, fmt.Sprintf("Warn: [%s] Scope: [%s]  %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
 		}
-		_, _ = fmt.Fprint(os.Stdout, string(colorYellow), fmt.Sprintf("Warn: [%s]  %s\n", time.Now().Format(time.RFC3339), string(val)))
+		log(WARN, fmt.Sprintf("Warn: [%s]  %s\n", time.Now().Format(time.RFC3339), string(val)))
 	}
 }
 
@@ -87,9 +88,9 @@ func (l GoLogger) Debug(msg interface{}) {
 			// Do nothing
 		}
 		if l.Scope != "" {
-			_, _ = fmt.Fprint(os.Stdout, string(colorCyan), fmt.Sprintf("DEBUG: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+			log(DEBUG, fmt.Sprintf("DEBUG: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
 		}
-		_, _ = fmt.Fprint(os.Stdout, string(colorCyan), fmt.Sprintf("DEBUG: [%s] %s\n", time.Now().Format(time.RFC3339), string(val)))
+		log(DEBUG, fmt.Sprintf("DEBUG: [%s] %s\n", time.Now().Format(time.RFC3339), string(val)))
 	}
 }
 
@@ -101,8 +102,27 @@ func (l GoLogger) Error(msg interface{}) {
 		// Do nothing
 	}
 	if l.Scope != "" {
-		_, _ = fmt.Fprint(os.Stdout, string(colorRed), fmt.Sprintf("ERROR: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+		log(ERROR, fmt.Sprintf("ERROR: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
 	}
-	_, _ = fmt.Fprint(os.Stdout, string(colorRed), fmt.Sprintf("ERROR: [%s] %s\n", time.Now().Format(time.RFC3339), string(val)))
+	log(ERROR, fmt.Sprintf("ERROR: [%s] %s\n", time.Now().Format(time.RFC3339), string(val)))
 
+}
+
+
+// log for final logging
+func log(lvl uint8, msg string) {
+	var color string
+	if lvl == ERROR {
+		color = colorRed
+	}
+	if lvl == INFO {
+		color = colorGreen
+	}
+	if lvl == WARN {
+		color = colorYellow
+	}
+	if lvl == DEBUG {
+		color = colorCyan
+	}
+	_, _ = fmt.Fprint(os.Stdout, color, msg)
 }
