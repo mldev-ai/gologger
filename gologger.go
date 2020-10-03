@@ -35,10 +35,9 @@ func NewGoLogger(logLevel uint8, fileFlush bool) Logger {
 	return GoLogger{
 		LogLevel:  logLevel,
 		FileFlush: fileFlush,
-		Scope:"",
+		Scope:     "",
 	}
 }
-
 
 func (l GoLogger) SetScope(scope string) Logger {
 	l.Scope = scope
@@ -54,7 +53,7 @@ func (l GoLogger) Info(msg interface{}) {
 		if l.Scope != "" {
 			_, _ = fmt.Fprint(os.Stdout, string(colorGreen), fmt.Sprintf("INFO: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
 		}
-		_, _ = fmt.Fprint(os.Stdout, string(colorGreen), fmt.Sprintf("INFO: [%s]  %s\n", time.Now().Format(time.RFC3339),  string(val)))
+		_, _ = fmt.Fprint(os.Stdout, string(colorGreen), fmt.Sprintf("INFO: [%s]  %s\n", time.Now().Format(time.RFC3339), string(val)))
 	}
 
 }
