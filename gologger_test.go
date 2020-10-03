@@ -10,7 +10,7 @@ type H map[string]interface{}
 func TestGoLogger_Info(t *testing.T) {
 	logger := NewGoLogger(Config{LogLevel: 1}).SetScope("TestGoLogger_Info")
 	s := make([]map[string]interface{}, 0)
-	s = append(s, H{"s": false})
+	s = append(s, H{"s": false, "this": H{"ss": 1}})
 	logger.Info(s)
 	logger.Info("testing info log")
 	logger.Info(1)

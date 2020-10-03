@@ -54,13 +54,8 @@ func (l GoLogger) SetScope(scope string) Logger {
 // Info level log print to console
 func (l GoLogger) Info(msg interface{}) {
 	if l.config.LogLevel >= INFO {
-		var val []byte
-		var e error
-		if l.config.PrettyPrint && l.config.PrettyPrint == true {
-			val, e = json.MarshalIndent(msg, "", " ")
-		} else {
-			val, e = json.Marshal(msg)
-		}
+
+		val, e := marshall(msg, l.config.PrettyPrint)
 		if e != nil {
 			// Do nothing
 		}
@@ -76,13 +71,7 @@ func (l GoLogger) Info(msg interface{}) {
 // Warn level log print to console
 func (l GoLogger) Warn(msg interface{}) {
 	if l.config.LogLevel >= WARN {
-		var val []byte
-		var e error
-		if l.config.PrettyPrint && l.config.PrettyPrint == true {
-			val, e = json.MarshalIndent(msg, "", " ")
-		} else {
-			val, e = json.Marshal(msg)
-		}
+		val, e := marshall(msg, l.config.PrettyPrint)
 		if e != nil {
 			// Do nothing
 		}
@@ -97,13 +86,7 @@ func (l GoLogger) Warn(msg interface{}) {
 // Debug level log print to console
 func (l GoLogger) Debug(msg interface{}) {
 	if l.config.LogLevel >= DEBUG {
-		var val []byte
-		var e error
-		if l.config.PrettyPrint && l.config.PrettyPrint == true {
-			val, e = json.MarshalIndent(msg, "", " ")
-		} else {
-			val, e = json.Marshal(msg)
-		}
+		val, e := marshall(msg, l.config.PrettyPrint)
 		if e != nil {
 			// Do nothing
 		}
@@ -118,13 +101,7 @@ func (l GoLogger) Debug(msg interface{}) {
 // Error level log print to console
 func (l GoLogger) Error(msg interface{}) {
 
-	var val []byte
-	var e error
-	if l.config.PrettyPrint && l.config.PrettyPrint == true {
-		val, e = json.MarshalIndent(msg, "", " ")
-	} else {
-		val, e = json.Marshal(msg)
-	}
+	val, e := marshall(msg, l.config.PrettyPrint)
 	if e != nil {
 		// Do nothing
 	}
@@ -135,6 +112,7 @@ func (l GoLogger) Error(msg interface{}) {
 	}
 
 }
+
 
 // log for final logging
 func log(lvl uint8, msg string) {
@@ -152,4 +130,15 @@ func log(lvl uint8, msg string) {
 		color = colorCyan
 	}
 	_, _ = fmt.Fprint(os.Stdout, color, msg)
+}
+
+func marshall (msg interface{}, pretty bool) ([]byte, error)  {
+	var val []byte
+	var e error
+	if pretty == true {
+		val, e = json.MarshalIndent(msg, "", " ")
+	} else {
+		val, e = json.Marshal(msg)
+	}
+	return val, e
 }
