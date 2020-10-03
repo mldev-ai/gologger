@@ -17,11 +17,21 @@ import "github.com/mldev-ai/gologger"
 
 const LOG_LEVEL=3
 
+type SampleUser struct{
+    Name    string
+    Age     int
+}
+
 func main() {
     
-    myLogger := gologger.NewGoLogger(INFO_LEVEL, false, "YOUR_SCOPE")
+    myLogger := gologger.NewGoLogger(gologger.Config{LogLevel: 1}).SetScope("main")
     myLogger.Info("This is some log!!!")
     myLogger.Info(1)
+    
+    user := SampleUser{Name:"Rajat Gupta", Age:22}
+    
+    // Print's formatted struct
+    mylogger.Info(user)
     
 }
 ```
