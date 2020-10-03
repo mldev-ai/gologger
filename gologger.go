@@ -113,7 +113,6 @@ func (l GoLogger) Error(msg interface{}) {
 
 }
 
-
 // log for final logging
 func log(lvl uint8, msg string) {
 	var color string
@@ -132,7 +131,7 @@ func log(lvl uint8, msg string) {
 	_, _ = fmt.Fprint(os.Stdout, color, msg)
 }
 
-func marshall (msg interface{}, pretty bool) ([]byte, error)  {
+func marshall(msg interface{}, pretty bool) ([]byte, error) {
 	var val []byte
 	var e error
 	if pretty == true {
