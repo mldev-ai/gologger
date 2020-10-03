@@ -66,8 +66,9 @@ func (l GoLogger) Info(msg interface{}) {
 		}
 		if l.Scope != "" {
 			log(INFO, fmt.Sprintf("INFO: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+		} else {
+			log(INFO, fmt.Sprintf("INFO: [%s]  %s\n", time.Now().Format(time.RFC3339), string(val)))
 		}
-		log(INFO, fmt.Sprintf("INFO: [%s]  %s\n", time.Now().Format(time.RFC3339), string(val)))
 	}
 
 }
@@ -87,8 +88,9 @@ func (l GoLogger) Warn(msg interface{}) {
 		}
 		if l.Scope != "" {
 			log(WARN, fmt.Sprintf("Warn: [%s] Scope: [%s]  %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+		} else {
+			log(WARN, fmt.Sprintf("Warn: [%s]  %s\n", time.Now().Format(time.RFC3339), string(val)))
 		}
-		log(WARN, fmt.Sprintf("Warn: [%s]  %s\n", time.Now().Format(time.RFC3339), string(val)))
 	}
 }
 
@@ -107,8 +109,9 @@ func (l GoLogger) Debug(msg interface{}) {
 		}
 		if l.Scope != "" {
 			log(DEBUG, fmt.Sprintf("DEBUG: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+		} else {
+			log(DEBUG, fmt.Sprintf("DEBUG: [%s] %s\n", time.Now().Format(time.RFC3339), string(val)))
 		}
-		log(DEBUG, fmt.Sprintf("DEBUG: [%s] %s\n", time.Now().Format(time.RFC3339), string(val)))
 	}
 }
 
@@ -127,8 +130,9 @@ func (l GoLogger) Error(msg interface{}) {
 	}
 	if l.Scope != "" {
 		log(ERROR, fmt.Sprintf("ERROR: [%s] Scope: [%s] %s\n", time.Now().Format(time.RFC3339), l.Scope, string(val)))
+	} else {
+		log(ERROR, fmt.Sprintf("ERROR: [%s] %s\n", time.Now().Format(time.RFC3339), string(val)))
 	}
-	log(ERROR, fmt.Sprintf("ERROR: [%s] %s\n", time.Now().Format(time.RFC3339), string(val)))
 
 }
 
