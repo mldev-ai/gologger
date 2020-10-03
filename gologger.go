@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// Logger Interface
 type Logger interface {
 	Info(msg interface{})
 	Debug(msg interface{})
@@ -25,27 +26,33 @@ const (
 	DEBUG       = 3
 )
 
+// GoLogger struct implements all Logger Method
 type GoLogger struct {
-	LogLevel  uint8
-	FileFlush bool
-	Scope     string
+
+	// config for our Logger
+	config Config
+
+	// Scope of logger
+	Scope string
 }
 
-func NewGoLogger(logLevel uint8, fileFlush bool) Logger {
+// NewGoLogger constructor for GoLogger
+func NewGoLogger(config Config) Logger {
 	return GoLogger{
-		LogLevel:  logLevel,
-		FileFlush: fileFlush,
-		Scope:     "",
+		config: config,
+		Scope:  "",
 	}
 }
 
+// SetScope for setting scope of logger
 func (l GoLogger) SetScope(scope string) Logger {
 	l.Scope = scope
 	return l
 }
 
+// Info level log print to console
 func (l GoLogger) Info(msg interface{}) {
-	if l.LogLevel >= INFO {
+	if l.config.LogLevel >= INFO {
 		val, e := json.Marshal(msg)
 		if e != nil {
 			// Do nothing
@@ -58,8 +65,9 @@ func (l GoLogger) Info(msg interface{}) {
 
 }
 
+// Warn level log print to console
 func (l GoLogger) Warn(msg interface{}) {
-	if l.LogLevel >= WARN {
+	if l.config.LogLevel >= WARN {
 		val, e := json.Marshal(msg)
 		if e != nil {
 			// Do nothing
@@ -71,8 +79,9 @@ func (l GoLogger) Warn(msg interface{}) {
 	}
 }
 
+// Debug level log print to console
 func (l GoLogger) Debug(msg interface{}) {
-	if l.LogLevel >= DEBUG {
+	if l.config.LogLevel >= DEBUG {
 		val, e := json.Marshal(msg)
 		if e != nil {
 			// Do nothing
@@ -84,6 +93,7 @@ func (l GoLogger) Debug(msg interface{}) {
 	}
 }
 
+// Error level log print to console
 func (l GoLogger) Error(msg interface{}) {
 
 	val, e := json.Marshal(msg)
